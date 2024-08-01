@@ -15,11 +15,7 @@ from ray import serve
     name="MyVLLMModel",
     ray_actor_options={
         "num_gpus": 1,
-        "runtime_env": {
-            "pip": ["vllm==0.5.1"],
-            "env_vars": {"http_proxy":"http://10.78.90.46:80","https_proxy":"http://10.78.90.46:80",
-                         "HTTP_PROXY":"http://10.78.90.46:80","HTTPS_PROXY":"http://10.78.90.46:80"}
-        } 
+        "num_cpus": 1 
     }
 )
 class VLLMPredictDeployment:
@@ -111,4 +107,4 @@ class VLLMPredictDeployment:
         ret = {"text": text_outputs}
         return Response(content=json.dumps(ret))
     
-deployment = VLLMPredictDeployment.bind(model="facebook/opt-125m")
+ray_serve_vllm_deployment = VLLMPredictDeployment.bind(model="facebook/opt-125m")
